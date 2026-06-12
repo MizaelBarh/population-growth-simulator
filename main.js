@@ -35,20 +35,20 @@ function solve(N0, r, K, tMax, steps = 600, crash = false) {
 }
 function getPhase(N, K) {
   const frac = N / K;
-  if (frac < 0.05) return { label: "Lag", color: "#e6c87a" };
-  if (frac < 0.5) return { label: "Exponential", color: "#7ae6c8" };
-  if (frac < 0.9) return { label: "Deceleration", color: "#a8e6a3" };
-  return { label: "Plateau", color: "#c8a8e6" };
+  if (frac < 0.05) return { label: "Lag", color: "#e6b805" };
+  if (frac < 0.5)  return { label: "Exponential", color: "#88a500" };
+  if (frac < 0.9)  return { label: "Deceleration", color: "#5d7b00" };
+  return { label: "Plateau", color: "#6f5b94" };
 }
 function phaseColor(N, K) {
   return getPhase(N, K).color;
 }
 const CHART_DEFAULTS = {
-  bgVoid: "#080d14",
-  bgCard: "#0d1320",
-  gridColor: "rgba(26,42,26,0.8)",
-  tickColor: "#3a5a3a",
-  labelColor: "#6baa6b"
+  bgVoid: "#f4f7e8",
+  bgCard: "#ffffff",
+  gridColor: "rgba(193,216,130,0.6)",
+  tickColor: "#5d7b00",
+  labelColor: "#88a500"
 };
 function baseScales(xLabel, yLabel) {
   return {
@@ -87,14 +87,13 @@ function renderMain(params, result, crashResult) {
   chartMain?.destroy();
   const { t, N, dNdt } = result;
   const K = params.K;
-  const pointColors = N.map((n) => phaseColor(n, K));
   const inflIdx = dNdt.indexOf(Math.max(...dNdt));
   const t50Idx = N.findIndex((n) => n >= K / 2);
   const datasets = [
     {
       label: params.speciesName,
       data: N.map((n, i) => ({ x: t[i], y: n })),
-      borderColor: "#a8e6a3",
+      borderColor: "#5d7b00",
       borderWidth: 2.5,
       pointRadius: 0,
       tension: 0.4,
@@ -106,7 +105,7 @@ function renderMain(params, result, crashResult) {
     {
       label: `Carrying capacity K = ${K.toLocaleString()}`,
       data: t.map((ti) => ({ x: ti, y: K })),
-      borderColor: "#c8a8e6",
+      borderColor: "#6f5b94",
       borderWidth: 1.2,
       borderDash: [5, 4],
       pointRadius: 0,
@@ -115,8 +114,8 @@ function renderMain(params, result, crashResult) {
     {
       label: "Inflection point",
       data: [{ x: t[inflIdx], y: N[inflIdx] }],
-      borderColor: "#e6c87a",
-      backgroundColor: "#e6c87a",
+      borderColor: "#e6b805",
+      backgroundColor: "#e6b805",
       pointRadius: 7,
       pointHoverRadius: 9,
       showLine: false
@@ -126,8 +125,8 @@ function renderMain(params, result, crashResult) {
     datasets.push({
       label: `K/2 reached at t = ${t[t50Idx].toFixed(1)} yr`,
       data: [{ x: t[t50Idx], y: N[t50Idx] }],
-      borderColor: "#7ae6c8",
-      backgroundColor: "#7ae6c8",
+      borderColor: "#88a500",
+      backgroundColor: "#88a500",
       pointRadius: 6,
       pointHoverRadius: 8,
       showLine: false
@@ -137,7 +136,7 @@ function renderMain(params, result, crashResult) {
     datasets.push({
       label: "Overshoot & crash",
       data: crashResult.N.map((n, i) => ({ x: crashResult.t[i], y: n })),
-      borderColor: "#e67a7a",
+      borderColor: "#c0392b",
       borderWidth: 1.8,
       borderDash: [6, 3],
       pointRadius: 0,
@@ -157,17 +156,17 @@ function renderMain(params, result, crashResult) {
       plugins: {
         legend: {
           labels: {
-            color: "#6baa6b",
+            color: "#5d7b00",
             font: { family: "'Space Mono'", size: 10 },
             boxWidth: 12
           }
         },
         tooltip: {
-          backgroundColor: "#0d1320",
-          borderColor: "#1a2a1a",
+          backgroundColor: "#ffffff",
+          borderColor: "#d6e4a1",
           borderWidth: 1,
-          titleColor: "#a8e6a3",
-          bodyColor: "#6baa6b",
+          titleColor: "#5d7b00",
+          bodyColor: "#88a500",
           titleFont: { family: "'Space Mono'" },
           bodyFont: { family: "'Space Mono'" },
           callbacks: {
@@ -199,21 +198,21 @@ function renderPhase(params, result) {
         {
           label: "dN/dt",
           data: Nrange.map((n, i) => ({ x: n, y: dNrange[i] })),
-          borderColor: "#a8e6a3",
+          borderColor: "#5d7b00",
           borderWidth: 2,
           pointRadius: 0,
           tension: 0.3,
           fill: {
             target: { value: 0 },
-            above: "rgba(168,230,163,0.07)",
-            below: "rgba(230,122,122,0.07)"
+            above: "rgba(93,123,0,0.08)",
+            below: "rgba(192,57,43,0.08)"
           }
         },
         {
           label: "Current state",
           data: [{ x: NEnd, y: dNEnd }],
-          borderColor: "#e6c87a",
-          backgroundColor: "#e6c87a",
+          borderColor: "#e6b805",
+          backgroundColor: "#e6b805",
           pointRadius: 7,
           showLine: false
         },
@@ -223,7 +222,7 @@ function renderPhase(params, result) {
             { x: K, y: Math.min(...dNrange) * 1.1 },
             { x: K, y: Math.max(...dNrange) * 1.1 }
           ],
-          borderColor: "#c8a8e6",
+          borderColor: "#6f5b94",
           borderWidth: 1,
           borderDash: [5, 4],
           pointRadius: 0
@@ -238,17 +237,17 @@ function renderPhase(params, result) {
       plugins: {
         legend: {
           labels: {
-            color: "#6baa6b",
+            color: "#5d7b00",
             font: { family: "'Space Mono'", size: 10 },
             boxWidth: 12
           }
         },
         tooltip: {
-          backgroundColor: "#0d1320",
-          borderColor: "#1a2a1a",
+          backgroundColor: "#ffffff",
+          borderColor: "#d6e4a1",
           borderWidth: 1,
-          titleColor: "#a8e6a3",
-          bodyColor: "#6baa6b",
+          titleColor: "#5d7b00",
+          bodyColor: "#88a500",
           titleFont: { family: "'Space Mono'" },
           bodyFont: { family: "'Space Mono'" }
         }
@@ -265,11 +264,11 @@ function renderCompare(params) {
   chartCompare?.destroy();
   const { N0, r, K, tMax, speciesName } = params;
   const scenarios = [
-    { r: r * 0.5, K, color: "#7ae6c8", label: "Slow grower (r\xD70.5)" },
-    { r, K, color: "#a8e6a3", label: `${speciesName} (baseline)` },
-    { r: r * 1.8, K, color: "#e6c87a", label: "Fast grower (r\xD71.8)" },
-    { r, K: K * 0.5, color: "#e67a7a", label: "Low K (K\xF72)" },
-    { r, K: K * 2, color: "#c8a8e6", label: "High K (K\xD72)" }
+    { r: r * 0.5, K, color: "#88a500", label: "Slow grower (r\xD70.5)" },
+    { r, K, color: "#5d7b00", label: `${speciesName} (baseline)` },
+    { r: r * 1.8, K, color: "#e6b805", label: "Fast grower (r\xD71.8)" },
+    { r, K: K * 0.5, color: "#c0392b", label: "Low K (K\xF72)" },
+    { r, K: K * 2, color: "#6f5b94", label: "High K (K\xD72)" }
   ];
   const datasets = scenarios.map((s) => {
     const res = solve(N0, s.r, s.K, tMax);
@@ -294,17 +293,17 @@ function renderCompare(params) {
       plugins: {
         legend: {
           labels: {
-            color: "#6baa6b",
+            color: "#5d7b00",
             font: { family: "'Space Mono'", size: 10 },
             boxWidth: 12
           }
         },
         tooltip: {
-          backgroundColor: "#0d1320",
-          borderColor: "#1a2a1a",
+          backgroundColor: "#ffffff",
+          borderColor: "#d6e4a1",
           borderWidth: 1,
-          titleColor: "#a8e6a3",
-          bodyColor: "#6baa6b",
+          titleColor: "#5d7b00",
+          bodyColor: "#88a500",
           titleFont: { family: "'Space Mono'" },
           bodyFont: { family: "'Space Mono'" }
         }
@@ -349,7 +348,7 @@ function initParticles() {
     vx: (Math.random() - 0.5) * 0.3,
     vy: (Math.random() - 0.5) * 0.3,
     r: Math.random() * 1.8 + 0.4,
-    alpha: Math.random() * 0.4 + 0.1
+    alpha: Math.random() * 0.3 + 0.05
   }));
   function frame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -362,7 +361,7 @@ function initParticles() {
       if (p.y > canvas.height) p.y = 0;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(168,230,163,${p.alpha})`;
+      ctx.fillStyle = `rgba(93,123,0,${p.alpha})`;
       ctx.fill();
     }
     requestAnimationFrame(frame);
