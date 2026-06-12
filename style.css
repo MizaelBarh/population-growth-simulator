@@ -2,25 +2,25 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-void:      #080d14;
-  --bg-surface:   #0d1320;
-  --bg-card:      #111827;
-  --border:       #1a2a1a;
-  --border-mid:   #253525;
+  --bg-void:      #f4f7e8;
+  --bg-surface:   #eef2dc;
+  --bg-card:      #ffffff;
+  --border:       #d6e4a1;
+  --border-mid:   #c2d882;
 
-  --green-bright: #a8e6a3;
-  --green-mid:    #6baa6b;
-  --green-dim:    #3a5a3a;
-  --green-glow:   rgba(168, 230, 163, 0.12);
+  --green-bright: #5d7b00;
+  --green-mid:    #88a500;
+  --green-dim:    #aabe44;
+  --green-glow:   rgba(136, 165, 0, 0.15);
 
-  --yellow:  #e6c87a;
-  --cyan:    #7ae6c8;
-  --purple:  #c8a8e6;
-  --red:     #e67a7a;
+  --yellow:  #e6b805;
+  --cyan:    #6f5b94;
+  --purple:  #6f5b94;
+  --red:     #c0392b;
 
-  --text-primary:   #d4ead4;
-  --text-secondary: #7aaa7a;
-  --text-dim:       #3d5c3d;
+  --text-primary:   #2e3a00;
+  --text-secondary: #5d7b00;
+  --text-dim:       #88a500;
 
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono:    'Space Mono', monospace;
